@@ -1,4 +1,23 @@
-######################
-## EPiServer Files
-######################
-*License.config
+App_Data/
+node_modules/
+artifacts/
+
+# Visual Studio files
+*.user
+*.lock.json
+.vscode/
+.vs/
+.nuget/
+packages/
+bin/
+obj/
+
+# Optimizely files
+*license.config
+modules/
+
+# OS crap
+.DS_Store
+thumbs.db
+ehthumbs.db
+desktop.ini
