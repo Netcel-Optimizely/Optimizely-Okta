@@ -4,6 +4,8 @@ using EPiServer.Cms.UI.AspNetIdentity;
 using EPiServer.Scheduler;
 using EPiServer.ServiceLocation;
 using EPiServer.Web.Routing;
+using Optimizely_Okta.Okta;
+using System.Security.Claims;
 
 namespace Optimizely_Okta;
 
@@ -11,10 +13,16 @@ public class Startup
 {
     private readonly IWebHostEnvironment _webHostingEnvironment;
 
-    public Startup(IWebHostEnvironment webHostingEnvironment)
+    public Startup(IWebHostEnvironment webHostingEnvironment, IConfiguration configuration)
     {
         _webHostingEnvironment = webHostingEnvironment;
+        Configuration = configuration;
     }
+
+    /// <summary>
+    /// Access config elements
+    /// </summary>
+    public IConfiguration Configuration { get; }
 
     public void ConfigureServices(IServiceCollection services)
     {
@@ -26,11 +34,11 @@ public class Startup
         }
 
         services
-            .AddCmsAspNetIdentity<ApplicationUser>()
             .AddCms()
             .AddAlloy()
-            .AddAdminUserRegistration()
             .AddEmbeddedLocalization<Startup>();
+
+        services.ConfigureOkta(Configuration, false);
 
         // Required by Wangkanai.Detection
         services.AddDetection();
